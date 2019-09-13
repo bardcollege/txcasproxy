@@ -19,7 +19,9 @@ FROM python:3.7-alpine
 #    libffi-dev
 ADD . /txcasproxy/
 WORKDIR /txcasproxy
-RUN apk add --no-cache --virtual .build-deps build-base git \
+RUN apk add --no-cache --virtual .build-deps \
+	build-base git libffi-dev openssl libxml2-dev openssl-dev py3-libxml2 \
+	libxslt-dev \
 	&& pip install -r requirements.txt \
 	&& find /usr/local \
 		\( -type d -a -name test -o -name tests \) \
