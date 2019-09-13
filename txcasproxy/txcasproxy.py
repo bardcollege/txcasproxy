@@ -1,25 +1,25 @@
 #! /usr/bin/env python
 
 import http.cookies as Cookie
-import cookielib
+import http.cookiejar
 import datetime
 import json
 import os.path
 import socket
 import sys
-from urllib import urlencode
+from urllib.parse import urlencode
 from urllib import parse as urlparse
-from ca_trust import CustomPolicyForHTTPS
-from interfaces import (
+from .ca_trust import CustomPolicyForHTTPS
+from .interfaces import (
         IAccessControl,
         IRProxyInfoAcceptor, 
         IResponseContentModifier,
         ICASRedirectHandler, IResourceInterceptor,
         IStaticResourceProvider)
-import proxyutils
+from . import proxyutils
 from .urls import does_url_match_pattern, parse_url_pattern
-from web_client import WebClientEndpointFactory
-from websocket_proxy import makeWebsocketProxyResource
+from .web_client import WebClientEndpointFactory
+from .websocket_proxy import makeWebsocketProxyResource
 from dateutil.parser import parse as parse_date
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
@@ -154,7 +154,7 @@ class ProxyApp(object):
                 else:
                     static_resources[plugin.static_resource_base] = plugin.static_resource_dir
         self.static_handlers = []
-        for n, (resource_base, resource_dir) in enumerate(static_resources.iteritems()):
+        for n, (resource_base, resource_dir) in enumerate(static_resources.items()):
             handler = lambda self, request: File(resource_dir)
             handler = self.app.route(resource_base, branch=True)(handler)
             self.static_handlers.append(handler)
@@ -229,7 +229,7 @@ class ProxyApp(object):
 
     def mod_headers(self, h):
         keymap = {}
-        for k,v in h.iteritems():
+        for k,v in h.items():
             key = k.lower()
             if key in keymap:
                 keymap[key].append(k)
@@ -597,7 +597,7 @@ class ProxyApp(object):
                     if new_location is not None:
                         resp_header_map['Location'] = [new_location]
             request.setResponseCode(response.code, message=response.phrase)
-            for k,v in resp_header_map.iteritems():
+            for k,v in resp_header_map.items():
                 if k == 'Set-Cookie':
                     v = self.mod_cookies(v)
                 req_resp_headers.setRawHeaders(k, v)
@@ -697,9 +697,9 @@ class ProxyApp(object):
         for cookie_value in value_list:
             c = Cookie.SimpleCookie()
             c.load(cookie_value)
-            for k in c.keys():
+            for k in list(c.keys()):
                 m = c[k]
-                if m.has_key('path'):
+                if 'path' in m:
                     m_path = m['path']
                     if self.is_proxy_path_or_child(m_path):
                         m_path = m_path[proxied_path_size:]

@@ -1,5 +1,5 @@
 
-from __future__ import print_function
+
 from OpenSSL import crypto
 from twisted.internet import ssl, defer 
 from twisted.internet.endpoints import clientFromString

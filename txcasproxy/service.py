@@ -1,8 +1,8 @@
 
-from __future__ import print_function
+
 import sys
-from txcasproxy import ProxyApp
-from authinfo import AuthInfoApp
+from .txcasproxy import ProxyApp
+from .authinfo import AuthInfoApp
 from twisted.application.service import Service
 from twisted.internet import reactor
 from twisted.internet.endpoints import serverFromString

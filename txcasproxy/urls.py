@@ -124,10 +124,10 @@ if __name__ == "__main__":
         ),
     ]         
     for url, pattern, expected in urls:
-        print("URL => {0}".format(url))
-        print("Pattern => {0}".format(pattern))
+        print(("URL => {0}".format(url)))
+        print(("Pattern => {0}".format(pattern)))
         matches = does_url_match_pattern(url, parse_url_pattern(pattern))
-        print("Match? => {0}".format(matches))
+        print(("Match? => {0}".format(matches)))
         if matches != expected:
-            print("*** ERROR !!! => Expected result was {0} but got {1}!".format(expected, matches))
+            print(("*** ERROR !!! => Expected result was {0} but got {1}!".format(expected, matches)))
         print("") 
