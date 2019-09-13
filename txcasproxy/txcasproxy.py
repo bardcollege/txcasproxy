@@ -344,7 +344,7 @@ class ProxyApp(object):
             # Does this request have a ticket?  I.e. is it coming back from a successful
             # CAS authentication?
             args = request.args
-            ticket_name = self.ticket_name
+            ticket_name = self.ticket_name.encode()
             if ticket_name in args:
                 values = args[ticket_name]
                 if len(values) == 1:
