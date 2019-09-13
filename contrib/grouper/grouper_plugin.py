@@ -6,7 +6,7 @@ import shlex
 import string
 from textwrap import dedent
 import urllib
-import urlparse
+from urllib import parse as urlparse
 
 # Application modules
 from txcasproxy.interfaces import IRProxyPluginFactory, IRProxyInfoAcceptor, \

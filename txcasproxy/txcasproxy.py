@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-from __future__ import print_function
 import Cookie
 import cookielib
 import datetime
@@ -9,7 +8,7 @@ import os.path
 import socket
 import sys
 from urllib import urlencode
-import urlparse
+from urllib import parse as urlparse
 from ca_trust import CustomPolicyForHTTPS
 from interfaces import (
         IAccessControl,

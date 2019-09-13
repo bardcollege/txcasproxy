@@ -1,6 +1,6 @@
 
 
-import urlparse
+from urllib import parse as urlparse
 
 def is_proxy_path_or_child(proxied_path, path):
     if path == proxied_path:

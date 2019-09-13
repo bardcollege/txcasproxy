@@ -3,7 +3,7 @@
 # Standard library
 import argparse
 import sys
-import urlparse
+from urllib import parse as urlparse
 
 # External modules
 from OpenSSL import SSL, crypto

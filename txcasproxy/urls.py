@@ -1,8 +1,7 @@
 #! /usr/bin/env python
 
-from __future__ import print_function
 from fnmatch import fnmatch
-import urlparse
+from urllib import parse as urlparse
 import sys
 
 def parse_url_pattern(pattern):

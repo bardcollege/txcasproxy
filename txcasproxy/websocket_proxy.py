@@ -1,5 +1,5 @@
 
-import urlparse
+from urllib import parse as urlparse
 from autobahn.twisted.resource import WebSocketResource
 from autobahn.twisted.websocket import (
     WebSocketServerFactory,
