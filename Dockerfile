@@ -1,4 +1,5 @@
-FROM python:3.7-alpine
+FROM python:3.7-alpine as base
+FROM base as builder
 #FROM debian:jessie
 
 #RUN apt-get update && apt-get install -y \
@@ -17,12 +18,13 @@ FROM python:3.7-alpine
 #    libssl-dev \
 #    python-twisted \
 #    libffi-dev
-ADD . /txcasproxy/
-WORKDIR /txcasproxy
 RUN apk add --no-cache --virtual .build-deps \
 	build-base git libffi-dev openssl libxml2-dev openssl-dev py3-libxml2 \
-	libxslt-dev \
-	&& pip install -r requirements.txt \
+	libxslt-dev 
+FROM builder
+ADD . /txcasproxy/
+WORKDIR /txcasproxy
+RUN pip install -r requirements.txt \
 	&& find /usr/local \
 		\( -type d -a -name test -o -name tests \) \
 		-o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
@@ -37,6 +39,7 @@ RUN apk add --no-cache --virtual .build-deps \
 	&& apk add --virtual .rundeps $runDeps \
 	&& apk del .build-deps
 
-ENTRYPOINT ["/usr/bin/twistd"]
 
-CMD ["-n", "casproxy", "--help"]
+ENTRYPOINT ["python3", "-m" "twisted"]
+
+CMD ["casproxy", "--help"]
