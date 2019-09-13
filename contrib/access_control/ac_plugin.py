@@ -11,11 +11,10 @@ from jinja2.exceptions import TemplateNotFound
 from twisted.internet import defer
 from twisted.plugin import IPlugin
 from yaml import load
-from zope.interface import implements
+from zope.interface import implementer
 
-
+@implementer(IPlugin, IRProxyPluginFactory)
 class AccessControlPluginFactory(object):
-    implements(IPlugin, IRProxyPluginFactory)
     tag = "access_control"
     opt_help = dedent('''\
         Plugin for enforcing simple access control based on CAS attributes.
@@ -41,9 +40,8 @@ class AccessControlPluginFactory(object):
         plugin.config = settings.get('config', None)
         return plugin
 
-
+@implementer(IAccessControl)
 class AccessControlPlugin(object):
-    implements(IAccessControl)
     tagname = "access_control" 
     ac_sequence = 1
     config = None
