@@ -385,9 +385,10 @@ class ProxyApp(object):
         if port is None:
             port = default_port
         if port == default_port:
-            return urlparse.urljoin("%s://%s" % (scheme, fqdn), request.uri)
+            return urlparse.urljoin(f"{scheme}://{fqdn}", request.uri.decode())
         else:
-            return urlparse.urljoin("%s://%s:%d" % (scheme, fqdn, port), request.uri)
+            return urlparse.urljoin(f"{scheme}://{fqdn}:{port}",
+                    request.uri.decode())
         
     def redirect_to_cas_login(self, request):
         """
