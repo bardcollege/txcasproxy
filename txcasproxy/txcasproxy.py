@@ -196,7 +196,9 @@ class ProxyApp(object):
             for ca_cert in auth_files:
                 with open(ca_cert, "rb") as f:
                     data = f.read()
+                    print(f"ca cert data: {data}")
                 cert = crypto.load_certificate(crypto.FILETYPE_PEM, data)
+                print(f"cert object: {cert}")
                 del data
                 extra_ca_certs.append(cert)
             policy = CustomPolicyForHTTPS(extra_ca_certs)
@@ -578,9 +580,12 @@ class ProxyApp(object):
         # Typical reverse proxying.    
         self.log("Proxying URL => {0}".format(url))
         http_client = HTTPClient(self.proxy_agent) 
-        d = http_client.request(request.method, url, **kwds)
+        d = http_client.request(request.method.decode(), url, **kwds)
+        print(f"request method: {request.method.decode()}")
+        print(f"request url: {url}")
 
         def process_response(response, request):
+            print(f"response: {response}")
             req_resp_headers = request.responseHeaders
             resp_code = response.code
             resp_headers = response.headers
@@ -622,6 +627,7 @@ class ProxyApp(object):
         d.addCallback(process_response, request)
         d.addCallback(treq.content)
         d.addCallback(mod_content, request)
+        print("GOT HERE")
         return d
 
     def checkForWebsocketUpgrade(self, request):
