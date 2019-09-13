@@ -565,7 +565,7 @@ class ProxyApp(object):
             kwds['headers'][self.remoteUserHeader] = [username]
         if request.method in ('PUT', 'POST'):
             kwds['data'] = request.content.read()
-        url = self.proxied_url + request.uri
+        url = self.proxied_url + request.uri.decode()
         # Determine if a plugin wants to intercept this URL.
         interceptors = self.interceptors
         for interceptor in interceptors:
