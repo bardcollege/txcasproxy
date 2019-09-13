@@ -19,13 +19,12 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from twisted.internet import defer
 from twisted.plugin import IPlugin
-from zope.interface import implements
+from zope.interface import implementer
 
-
+@implementer(IPlugin, IRProxyPluginFactory)
 class GrouperPluginFactory(object):
     """
     """
-    implements(IPlugin, IRProxyPluginFactory)
 
     tag = "grouper"
 
@@ -54,14 +53,14 @@ class GrouperPluginFactory(object):
             settings.update(argdict)
         return GrouperPlugin(**settings) 
 
+@implementer(
+    IRProxyInfoAcceptor, 
+    IResponseContentModifier, 
+    ICASRedirectHandler, 
+    IResourceInterceptor,
+    IStaticResourceProvider)
 class GrouperPlugin(object):
     
-    implements(
-        IRProxyInfoAcceptor, 
-        IResponseContentModifier, 
-        ICASRedirectHandler, 
-        IResourceInterceptor,
-        IStaticResourceProvider)
     
     proxy_fqdn = None
     proxy_port = 443

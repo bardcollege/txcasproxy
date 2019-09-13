@@ -9,7 +9,7 @@ from txcasproxy.service import ProxyService
 from twisted.application.service import IServiceMaker
 from twisted.plugin import getPlugins, IPlugin
 from twisted.python import usage
-from zope.interface import implements
+from zope.interface import implementer
 
 
 def format_plugin_help_list(factories, stm):
@@ -134,8 +134,8 @@ class Options(usage.Options):
             raise usage.UsageError(msg)
 
 
+@implementer(IServiceMaker, IPlugin)
 class MyServiceMaker(object):
-    implements(IServiceMaker, IPlugin)
     tapname = "casproxy"
     description = "CAS Authenticating Proxy"
     options = Options
