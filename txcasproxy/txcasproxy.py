@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import Cookie
+import http.cookies as Cookie
 import cookielib
 import datetime
 import json
